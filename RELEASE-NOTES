@@ -1,0 +1,17 @@
+script 0.3
+
+- New examples.
+
+- Changed names of #main_file, #dir, and #loaded_features to be prefixed
+  with __ to avoid conflicts.
+
+- Local variables in the top level script file are avaiable through the
+  __script_scope method. See examples and docs.
+
+script 0.2
+
+- Fixed bug with making module function out of top-level method defs.
+
+script 0.1
+
+- first release

@@ -1,0 +1,2 @@
+rdoc $* -m intro.txt -o doc -t 'Script' -f html \
+  intro.txt lib/*.rb README RELEASE-NOTES

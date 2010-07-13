@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>File: sim.rb</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+	<script type="text/javascript">
+	// <![CDATA[
+
+	function popupCode( url ) {
+		window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+	}
+
+	function toggleCode( id ) {
+		if ( document.getElementById )
+			elem = document.getElementById( id );
+		else if ( document.all )
+			elem = eval( "document.all." + id );
+		else
+			return false;
+
+		elemStyle = elem.style;
+		
+		if ( elemStyle.display != "block" ) {
+			elemStyle.display = "block"
+		} else {
+			elemStyle.display = "none"
+		}
+
+		return true;
+	}
+	
+	// Make codeblocks hidden by default
+	document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+	
+	// ]]>
+	</script>
+
+</head>
+<body>
+
+
+
+	<div id="fileHeader">
+		<h1>sim.rb</h1>
+		<table class="header-table">
+		<tr class="top-aligned-row">
+			<td><strong>Path:</strong></td>
+			<td>sim.rb
+			</td>
+		</tr>
+		<tr class="top-aligned-row">
+			<td><strong>Last Update:</strong></td>
+			<td>Sat May 15 19:19:13 PDT 2004</td>
+		</tr>
+		</table>
+	</div>
+  <!-- banner header -->
+
+	<div id="bodyContent">
+
+
+	<div id="contextContent">
+
+		<div id="description">
+			<p>
+A module which is an instance of the <a
+href="../classes/Script.html">Script</a> class encapsulates in its scope
+the top-level methods, top-level constants, and instance variables defined
+in a ruby script file (and its subfiles) loaded by a ruby program. This
+allows use of script files to define objects that can be loaded into a
+program in much the same way that objects can be loaded from YAML or
+Marshal files.
+</p>
+<p>
+<a href="../classes/Script.html">Script</a> modules are instantiated with
+<tt><a href="../classes/Script.html#M000001">Script.new</a>(main_file)</tt>
+or the alias <tt><a
+href="../classes/Script.html#M000002">Script.load</a>(main_file)</tt>. The
+<tt>main_file</tt> can load or require other dependent files with <tt><a
+href="../classes/Script.html#M000002">Script#load</a></tt> or <tt><a
+href="../classes/Script.html#M000003">Script#require</a></tt>, using path
+names relative to <tt>main_file</tt>&#8217;s dir. All the top-level
+constants and top-level methods that are defined in the <tt>main_file</tt>
+and dependent local files are scoped in the same <a
+href="../classes/Script.html">Script</a> module.
+</p>
+<p>
+Both <tt><a href="../classes/Script.html#M000002">Script#load</a></tt> and
+<tt><a href="../classes/Script.html#M000003">Script#require</a></tt> fall
+back to the Kernel versions if the file is not found locally. Hence, other
+ruby libraries can be loaded and required as usual, assuming their names do
+not conflict with local file names. Definitions from those files go into
+the usual scope (typically global).
+</p>
+<p>
+A <a href="../classes/Script.html">Script</a> immitates the way the
+top-level ruby context works, so a ruby file that was originally intended
+to be run from the top level, defining top-level constants and top-level
+methods, can also be run as a <a href="../classes/Script.html">Script</a>,
+and its top-level constants and top-level methods are wrapped in the
+script&#8217;s scope. The difference between this behavior and simply
+wrapping in an anonymous module using <tt>Kernel.load(main_file, true)</tt>
+is that the top-level methods and top-level constants defined in the script
+are accessible using the <a href="../classes/Script.html">Script</a>
+instance.
+</p>
+<p>
+The top-level definitions of a <a href="../classes/Script.html">Script</a>
+can be accessed after it has been loaded, as follows:
+</p>
+<p>
+<tt>script.meth</tt>
+</p>
+<ul>
+<li>Call a method defined using <tt>def meth</tt> in the script file.
+
+</li>
+</ul>
+<p>
+<tt>script::K</tt>
+</p>
+<ul>
+<li>Access a constant defined using <tt>K = val</tt> in the script file.
+
+</li>
+</ul>
+<p>
+An &quot;input&quot; can be passed to the script before loading. Simply
+call <a href="../classes/Script.html#M000001">Script.new</a> (or <a
+href="../classes/Script.html#M000002">Script.load</a>) with a block. The
+block is passed a single argument, the <a
+href="../classes/Script.html">Script</a> module, and executed before the
+files are loaded into the <a
+href="../classes/Script.html">Script</a>&#8217;s scope. Setting a constant
+in this block makes the constant available to the script during loading.
+For example:
+</p>
+<p>
+<tt>script = <a
+href="../classes/Script.html#M000002">Script.load</a>(&quot;my-script.rb&quot;)
+{ |script| script::INPUT = 3 }</tt>
+</p>
+<p>
+Note that all methods defined in the script file are both instance methods
+of the module and methods of the module instance (the effect of
+<tt>Module#module_function</tt>). So include-ing a <a
+href="../classes/Script.html">Script</a> module in a class will give
+instances of the class all the methods and constants defined in the script,
+except that they will reference the instance&#8217;s instance variables,
+rather than the <a href="../classes/Script.html">Script</a> module&#8217;s
+instance variables.
+</p>
+<p>
+The <a href="../classes/Script.html">Script</a> class was inspired by Nobu
+Nokada&#8217;s suggestion in ruby-talk:62727, in a thread (started in
+ruby-talk:62660) about how to use ruby script files as specifications of
+objects.
+</p>
+
+		</div>
+
+
+
+		<div id="constants-list">
+			<h2 class="section-bar">Constants</h2>
+
+			<div class="name-list">
+				<table summary="Constants">
+				<tr class="top-aligned-row context-row">
+					<td class="context-item-name">INPUT</td>
+					<td>=</td>
+					<td class="context-item-value">3 }</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+
+
+
+			
+		<div id="class-list">
+			<h2 class="section-bar">Classes and Modules</h2>
+
+			Class <a href="../classes/Script.html" class="link">Script</a><br />
+&nbsp;&nbsp;::Class <a href="../classes/Script/MissingFile.html" class="link">Script::MissingFile</a><br />
+
+		</div>
+
+	</div>
+
+
+
+		<!-- if includes -->
+
+
+		<!-- if method_list -->
+
+
+	</div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
