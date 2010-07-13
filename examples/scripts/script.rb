@@ -1,6 +1,6 @@
 puts "in #{__FILE__}, line #{__LINE__}"
 
-load "sub-script.rb"
+load File.dirname(__FILE__)+"/sub-script.rb"
 
 OUTPUT = ["input was #{INPUT}"]
 
