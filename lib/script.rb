@@ -52,7 +52,11 @@ class Script < Module
   # from those sub files.
   
   def load(file, wrap = false)
-    load_in_module(File.join(@__dir, file))
+    if file =~ /^\//
+      load_in_module(file)
+    else
+      load_in_module(File.join(@__dir, file))
+    end
     true
   rescue MissingFile
     super
@@ -70,7 +74,11 @@ class Script < Module
   def require(feature)
     unless @__loaded_features[feature]
       @__loaded_features[feature] = true
-      file = File.join(@__dir, feature)
+      if feature =~ /^\//
+        file = feature
+      else
+        file = File.join(@__dir, feature)
+      end
       file += ".rb" unless /\.rb$/ =~ file
       load_in_module(file)
     end
